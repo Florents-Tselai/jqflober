@@ -165,6 +165,7 @@ jobs:
         run: |
           autoreconf -i
           ./configure \
+            --prefix=$(python3 -c "import sys; print(sys.prefix)") \
             --host="${{ matrix.target }}$(uname -r)" \
             --disable-docs \
             --disable-valgrind \
@@ -191,6 +192,17 @@ jobs:
           path: |
             test-suite.log
             tests/*.log
+
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.17.0
+        env:
+          CIBW_BUILD: "cp312-*"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cibw-wheels-${{ matrix.os }}-${{ strategy.job-index }}
+          path: ./wheelhouse/*.whl
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
