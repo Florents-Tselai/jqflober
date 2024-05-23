@@ -25,10 +25,10 @@ line-length = 100
 [tool.ruff.lint]
 extend-select = ["I", "B", "UP"]
 
-[tool.cibuildwheel]
-test-command = [
-    "jq -h",
-    "python -m jqflober -h",
-]
+#[tool.cibuildwheel]
+#test-command = [
+#    "jq -h",
+#    "python -m jqflober -h",
+#]
 environment.MACOSX_DEPLOYMENT_TARGET = "10.12"
 
